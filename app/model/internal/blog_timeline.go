@@ -5,13 +5,14 @@
 package internal
 
 import (
-    "github.com/gogf/gf/os/gtime"
+	"github.com/gogf/gf/os/gtime"
 )
 
 // BlogTimeline is the golang structure for table blog_timeline.
 type BlogTimeline struct {
-    Id      uint        `orm:"id,primary" json:"id"`      //   
-    Content string      `orm:"content"    json:"content"` //   
-    Image   string      `orm:"image"      json:"image"`   //   
-    Created *gtime.Time `orm:"created"    json:"created"` //   
+	Id      uint        `orm:"id,primary" json:"id"`      //
+	Title   string      `orm:"title"      json:"title"`   //
+	Content string      `orm:"content"    json:"content"` //
+	Image   string      `orm:"image"      json:"image"`   //
+	Created *gtime.Time `orm:"created"    json:"created"` //
 }

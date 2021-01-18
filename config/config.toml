@@ -19,8 +19,10 @@
 
 # Database.
 [database]
-    link  = "mysql:root:root@tcp(127.0.0.1:3306)/blog_new"
+    link  = "mysql:root:393622951@tcp(127.0.0.1:3306)/blog"
     debug = true
+    prefix  = "blog_"
+    charset = "utf8mb4"
     # Database logger.
     [database.logger]
         Path   = "/tmp/log/gf-app/sql"

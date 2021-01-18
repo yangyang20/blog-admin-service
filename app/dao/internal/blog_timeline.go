@@ -25,10 +25,11 @@ type BlogTimelineDao struct {
 
 // BlogTimelineColumns defines and stores column names for table blog_timeline.
 type blogTimelineColumns struct {
-	Id       string //   
-    Content  string //   
-    Image    string //   
-    Created  string //
+	Id      string //
+	Title   string //
+	Content string //
+	Image   string //
+	Created string //
 }
 
 var (
@@ -37,10 +38,11 @@ var (
 		M:     g.DB("default").Model("blog_timeline").Safe(),
 		Table: "blog_timeline",
 		Columns: blogTimelineColumns{
-			Id:      "id",       
-            Content: "content",  
-            Image:   "image",    
-            Created: "created",
+			Id:      "id",
+			Title:   "title",
+			Content: "content",
+			Image:   "image",
+			Created: "created",
 		},
 	}
 )
@@ -76,7 +78,7 @@ func (d *BlogTimelineDao) Slave() *BlogTimelineDao {
 
 // Args sets custom arguments for model operation.
 func (d *BlogTimelineDao) Args(args ...interface{}) *BlogTimelineDao {
-	return &BlogTimelineDao{M: d.M.Args(args ...)}
+	return &BlogTimelineDao{M: d.M.Args(args...)}
 }
 
 // LeftJoin does "LEFT JOIN ... ON ..." statement on the model.
