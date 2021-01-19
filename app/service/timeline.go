@@ -14,9 +14,10 @@ type TimelineService struct {
 }
 
 var blog = new(model.BlogTimeline)
+var logger = glog.New()
 
 func (t *TimelineService) TimelineCreate(data *define.TimelineCreate) response.ResultType {
-	logger := glog.New()
+
 	logger.Print("输入参数", data)
 
 	if err := gconv.Struct(data, &blog); err != nil {
@@ -29,4 +30,31 @@ func (t *TimelineService) TimelineCreate(data *define.TimelineCreate) response.R
 		return response.ResultType{response.FAIL, "插入失败", ""}
 	}
 	return response.ResultType{response.SUCCESS, "插入成功", ""}
+}
+
+func (t *TimelineService) TimelineList() response.ResultType {
+
+	res, err := dao.BlogTimeline.All()
+	if err != nil {
+		logger.Print("有错误")
+		return response.ResultType{response.FAIL, "查询错误", err}
+	}
+	return response.ResultType{response.SUCCESS, "查询成功", res}
+}
+
+func (t *TimelineService) TimelineUpdate(data map[string]interface{}, where string) response.ResultType {
+	logger.Print("查询条件", where)
+	res, err := dao.BlogTimeline.Where(where).FindOne()
+	if err != nil || res == nil {
+		logger.Print("查询结果", res)
+		logger.Print("查询条件有错误", err)
+		return response.ResultType{response.FAIL, "查询错误", err}
+	}
+
+	_, error := dao.BlogTimeline.Update(data, where)
+	if error != nil {
+		logger.Print("更新错误")
+		return response.ResultType{response.ERROR, "更新错误", error}
+	}
+	return response.ResultType{response.SUCCESS, "更新成功", nil}
 }

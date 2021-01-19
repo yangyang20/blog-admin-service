@@ -30,6 +30,7 @@ type blogTimelineColumns struct {
 	Content string //
 	Image   string //
 	Created string //
+	IsShow  string // 1显示  0 不显示
 }
 
 var (
@@ -43,6 +44,7 @@ var (
 			Content: "content",
 			Image:   "image",
 			Created: "created",
+			IsShow:  "is_show",
 		},
 	}
 )

@@ -15,4 +15,5 @@ type BlogTimeline struct {
 	Content string      `orm:"content"    json:"content"` //
 	Image   string      `orm:"image"      json:"image"`   //
 	Created *gtime.Time `orm:"created"    json:"created"` //
+	IsShow  int         `orm:"is_show"    json:"isShow"`  // 1显示  0 不显示
 }
