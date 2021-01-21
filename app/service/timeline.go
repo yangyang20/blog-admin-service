@@ -51,10 +51,20 @@ func (t *TimelineService) TimelineUpdate(data map[string]interface{}, where stri
 		return response.ResultType{response.FAIL, "查询错误", err}
 	}
 
-	_, error := dao.BlogTimeline.Update(data, where)
-	if error != nil {
+	_, upt_error := dao.BlogTimeline.Update(data, where)
+	if upt_error != nil {
 		logger.Print("更新错误")
-		return response.ResultType{response.ERROR, "更新错误", error}
+		return response.ResultType{response.ERROR, "更新错误", upt_error}
 	}
 	return response.ResultType{response.SUCCESS, "更新成功", nil}
+}
+
+func (t *TimelineService) TimelineInfo(where map[string]interface{}) response.ResultType {
+	logger.Print("查询参数", where)
+	res, err := dao.BlogTimeline.Where(where).FindOne()
+	if err != nil || res == nil {
+		logger.Panic("查询错误:", err)
+		return response.ResultType{response.FAIL, "查询错误", err}
+	}
+	return response.ResultType{response.SUCCESS, "查询成功", res}
 }

@@ -33,19 +33,40 @@ func (timeline *timelineApi) List(r *ghttp.Request) {
 	response.JsonExit(r, res.Code, res.Msg, res.Data)
 }
 
+func (timeline *timelineApi) PutInfo(r *ghttp.Request) {
+	logger := glog.New()
+	var (
+		data *define.TimelinePut
+	)
+	err := r.Parse(&data)
+	if err != nil {
+		response.JsonExit(r, response.FAIL, "参数有误:"+gconv.String(err), err)
+	}
+	logger.Print("data", data)
+	update := gconv.Map(data)
+	res := timeline.timelineService.TimelineUpdate(update, "id="+gconv.String(data.Id))
+	response.JsonExit(r, res.Code, res.Msg, res.Data)
+}
+
 func (timeline *timelineApi) PutShow(r *ghttp.Request) {
 	logger := glog.New()
-	input, err := r.GetJson()
-	if err != nil {
-		response.JsonExit(r, response.ERROR, "参数错误", err)
-	}
-	logger.Print("input", input)
-	id := input.Get("id")
+	id := r.GetRequest("id")
 	logger.Print("id:", id)
-	isShow := input.Get("isShow")
+	isShow := r.GetRequest("isShow")
 	logger.Print("isshow:", isShow)
 	data := make(map[string]interface{})
 	data["is_show"] = gconv.Int(isShow)
-	//res :=timeline.timelineService.TimelineUpdate(data,"id="+gconv.String(id))
-	//response.JsonExit(r,res.Code,res.Msg,res.Data)
+	res := timeline.timelineService.TimelineUpdate(data, "id="+gconv.String(id))
+	response.JsonExit(r, res.Code, res.Msg, res.Data)
+}
+
+func (timeline *timelineApi) GetInfo(r *ghttp.Request) {
+	id := r.Get("id")
+	logger := glog.New()
+	logger.Print("id", id)
+	where := make(map[string]interface{})
+	where["id"] = id
+	logger.Print("where", where)
+	res := timeline.timelineService.TimelineInfo(where)
+	response.JsonExit(r, res.Code, res.Msg, res.Data)
 }
